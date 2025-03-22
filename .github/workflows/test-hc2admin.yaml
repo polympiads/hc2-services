@@ -22,6 +22,7 @@ jobs:
           python-version: 3.11
       - name: build and test
         run: |
-          cd hc2admin/app
+          cd hc2admin
           pip install -r requirements.txt
+          cd app
           bash test.sh
