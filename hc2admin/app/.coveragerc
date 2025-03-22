@@ -1,0 +1,10 @@
+[run]
+omit = 
+    manage.py
+    hc2admin/settings.py
+    hc2admin/tests.py
+    hc2admin/asgi.py
+    hc2admin/wsgi.py
+    teams/migrations/**
+    teams/tests.py
+    utils/**
