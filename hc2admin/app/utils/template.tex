@@ -1,0 +1,61 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{scrreprt}
+
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+
+\setlength\parindent{0pt}
+
+\newcommand{\teamid}{\verbatiminput{id}}
+\newcommand{\teamname}{\verbatiminput{name}}
+\newcommand{\teamlocation}{\verbatiminput{location}}
+\newcommand{\code}{\verbatiminput{code}}
+
+\fancyhead{} % clear all header fields
+\fancyhead[RO,LE]{ Page \thepage }
+\fancyhead[LO,LE]{ \begin{minipage}[t][17.0pt][t]{0.7\textwidth} \verbatiminput{teamparams} \end{minipage} }
+\pagestyle{fancy}
+
+\begin{document}
+\begin{titlepage}
+\begin{center}
+{ \small \color{white} .}
+\vspace{8cm}
+\par
+{ \huge \bfseries CONFIDENTIAL } \par
+\vspace{1.5cm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\arraystretch}{1.5}
+%Entsprechend der Anzahl der Autoren anpassen bzw. Kommentarzeichen (%) entfernen
+\begin{table}[h]
+    \large
+    \centering
+    \begin{tabular}{lll}
+        & & \\
+        \emph{Team Properties} & 
+        \begin{minipage}{0.5\linewidth}
+            \teamid
+        \end{minipage} &
+        \begin{minipage}{0.2\linewidth}
+            \teamlocation
+        \end{minipage} \\
+        \emph{Team Name} & 
+        \begin{minipage}{0.5\linewidth}
+            \teamname
+        \end{minipage} & \\
+    \end{tabular}
+\end{table}
+\renewcommand{\arraystretch}{1} \par
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vfill
+
+\end{center}
+\end{titlepage}
+
+\verbatiminput{code}
+
+\end{document}

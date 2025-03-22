@@ -1,0 +1,11 @@
+services:
+  hc2admin:
+    image: polympiads/hc2admin
+    ports:
+      - 80:8000
+    environment:
+      - TELEMETRY_CONFIG_TYPE=HTTP
+      - TELEMETRY_HTTP_ENDPOINT=http://host.docker.internal:4318
+      - TELEMETRY_RESOURCE_SERVICE_NAME=hc2admin:django
+
+    

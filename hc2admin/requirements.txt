@@ -1,0 +1,7 @@
+django
+channels
+
+requests
+polympiads_telemetry
+
+opentelemetry-instrumentation-django
