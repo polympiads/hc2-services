@@ -63,7 +63,7 @@ class AddTeamTest (TestCase):
 
         self.check_default_db()
     def test_add_team_name_already_exists (self):
-        with self.assertRaisesMessage(CommandError, "UNIQUE constraint failed: teams_team.team_name"):
+        with self.assertRaisesMessage(CommandError, "UNIQUE constraint failed: teams_team"):
             call_command("addteam", "11", "Nameless Silly Moons", "2.6.4")
 
         self.check_default_db()

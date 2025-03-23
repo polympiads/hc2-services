@@ -1,7 +1,9 @@
 django
+django-enumfield
 channels
 
 requests
-polympiads_telemetry
+beautifulsoup4
 
+polympiads_telemetry
 opentelemetry-instrumentation-django

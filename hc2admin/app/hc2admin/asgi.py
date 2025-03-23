@@ -11,6 +11,9 @@ import os
 
 from django.core.asgi import get_asgi_application
 
+from hc2admin.tasks import run_tasks
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hc2admin.settings')
 
 application = get_asgi_application()
+run_tasks()

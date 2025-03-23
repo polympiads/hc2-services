@@ -14,6 +14,7 @@ class AddTeamTest (TestCase):
 
         for team, (id, name, (room, row, col)) in zip(Team.objects.all(), teams):
             assert team.team_name == name
+            assert team.team_slug == "nameless-silly-moons"
             assert team.team_id == id
             assert team.team_location.room == room
             assert team.team_location.row == row

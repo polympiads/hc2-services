@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import ValidationError
+from django.utils.text import slugify
 
 from telemetry.traces import get_tracer
 import logging
@@ -56,8 +57,12 @@ class TeamLocation (models.Model):
 class Team (models.Model):
     team_id       = models.IntegerField  ( verbose_name="Team UUID", unique=True )
     team_name     = models.TextField     ( verbose_name="Team Name", unique=True )
+    team_slug     = models.TextField     ( verbose_name="Team Slug", unique=True )
     team_location = models.OneToOneField ( TeamLocation, verbose_name="Team Location", on_delete=models.PROTECT )
-
+    
+    def save(self, *args, **kwargs):
+        self.team_slug = slugify(self.team_name)
+        return super().save(*args, **kwargs)
     @property
     def team_id_readable (self) -> str:
         return f"Team {self.team_id}"

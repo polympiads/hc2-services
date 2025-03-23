@@ -7,5 +7,5 @@ services:
       - TELEMETRY_CONFIG_TYPE=HTTP
       - TELEMETRY_HTTP_ENDPOINT=http://host.docker.internal:4318
       - TELEMETRY_RESOURCE_SERVICE_NAME=hc2admin:django
-
+      - CODEFORCES_PRINTER_TOKEN=${CODEFORCES_PRINTER_TOKEN}
     

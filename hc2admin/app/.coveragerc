@@ -6,5 +6,7 @@ omit =
     hc2admin/asgi.py
     hc2admin/wsgi.py
     teams/migrations/**
-    teams/tests.py
+    teams/tests/**
+    printout/migrations/**
+    printout/tests/**
     utils/**
