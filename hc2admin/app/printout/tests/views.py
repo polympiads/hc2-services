@@ -60,3 +60,21 @@ class TestViewPDF (TestCase):
     def test_staff_user_no_pdf (self, open: Mock, open_result: Mock, file_response: Mock, file_response_result: Mock):
         response = self.cli_staff.get("/printout/pdf/2/")
         assert isinstance(response, HttpResponseNotFound)
+
+class TestViewManager (TestCase):
+    def setUp (self):
+        self.uS = User.objects.create_superuser( "staff", password="staff" )
+        self.uA = User.objects.create_user( "user",  password="user" )
+
+        self.cli_anonymous = Client()
+        self.cli_standard  = Client()
+        self.cli_standard.login(username="user", password="user")
+        self.cli_staff = Client()
+        self.cli_staff.login(username="staff", password="staff")
+
+    def test_anonymous (self):
+        assert self.cli_anonymous.get("/printout/manager/").status_code == 403
+    def test_standard (self):
+        assert self.cli_standard.get("/printout/manager/").status_code == 403
+    def test_staff (self):
+        assert self.cli_staff.get("/printout/manager/").status_code == 200

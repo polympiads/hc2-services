@@ -16,8 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
+from printout.consumers import PrintoutConsumer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('printout/', include("printout.urls"))
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+websocket_urlpatterns = [
+    path('ws/printout/admin/', PrintoutConsumer.as_asgi())
 ]

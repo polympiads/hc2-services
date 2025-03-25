@@ -20,6 +20,7 @@ class PrintoutStatus(enum.Enum):
 
 class Printout (models.Model):
     team   = models.ForeignKey( Team, verbose_name="Team", on_delete=models.CASCADE )
+    user   = models.TextField( default="", verbose_name="" )
     url    = models.TextField( verbose_name="URL" )
     code   = models.TextField( verbose_name="Code" )
     status = enum  .EnumField( PrintoutStatus, verbose_name="Printout Status" )

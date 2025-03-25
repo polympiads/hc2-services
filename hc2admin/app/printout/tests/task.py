@@ -1,5 +1,5 @@
 
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, call, patch
 from django.test import TestCase
 
 from printout.models import Printout, PrintoutStatus
@@ -14,11 +14,13 @@ class TestQueryTask(TestCase):
 
         self.team1 = Team.objects.all()[0]
         return 
+    @patch("printout.task.PrintoutConsumer")
     @patch("printout.task.PrinterAPI")
     @patch("printout.models.render_template")
-    def test_two_prints (self, render_template: Mock, printer_api: Mock):
-        printer_obj = printer_api.return_value = Mock()
-        read_entry  = printer_obj.read_entry   = Mock()
+    def test_two_prints (self, render_template: Mock, printer_api: Mock, consumer: Mock):
+        printer_obj  = printer_api.return_value = Mock()
+        read_entry   = printer_obj.read_entry   = Mock()
+        on_new       = consumer.on_new          = Mock()
 
         queue  = [
             PrinterEntry("team01", "url1", "content1"),
@@ -54,11 +56,19 @@ class TestQueryTask(TestCase):
         assert p2.status == PrintoutStatus.RECEIVED
         assert p2.target == "file2.pdf"
 
+        on_new.assert_has_calls([
+            call( p1 ),
+            call( p2 )
+        ])
+
+    @patch("printout.task.PrintoutConsumer")
     @patch("printout.task.PrinterAPI")
     @patch("printout.models.render_template")
-    def test_print_team_does_not_exist (self, render_template: Mock, printer_api: Mock):
-        printer_obj = printer_api.return_value = Mock()
-        read_entry  = printer_obj.read_entry   = Mock()
+    def test_print_team_does_not_exist (self, render_template: Mock, printer_api: Mock, consumer: Mock):
+        printer_obj  = printer_api.return_value = Mock()
+        read_entry   = printer_obj.read_entry   = Mock()
+        consumer_obj = consumer.return_value    = Mock()
+        on_new       = consumer_obj.on_new      = Mock()
 
         queue  = [
             PrinterEntry("team02", "url1", "content1"),
@@ -79,6 +89,8 @@ class TestQueryTask(TestCase):
         render_template.side_effect = _render_template
 
         printout_query_task()
+        on_new.assert_not_called()
+        render_template.assert_not_called()
 
         assert Printout.objects.count() == 0
         

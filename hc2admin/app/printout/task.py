@@ -1,5 +1,6 @@
 
 import logging
+from printout.consumers import PrintoutConsumer
 from printout.models import Printout
 from utils.printapi import PrinterAPI
 
@@ -23,5 +24,4 @@ def printout_query_task ():
                 logger.info(f"Generating printout for team '{entry.team}' out of url '{entry.url}'.")
                 
                 printout = Printout.create_printout(entry.team, entry.url, entry.content)
-
-                # TODO push it to websockets online
+                PrintoutConsumer.on_new(printout)

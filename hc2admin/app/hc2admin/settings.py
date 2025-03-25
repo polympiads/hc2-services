@@ -32,6 +32,8 @@ ALLOWED_HOSTS = [ '*' ]
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,6 +56,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'hc2admin.urls'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 TEMPLATES = [
     {
@@ -72,7 +75,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'hc2admin.wsgi.application'
-
+ASGI_APPLICATION = "hc2admin.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -115,6 +118,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -128,3 +136,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Codeforces Printer Token
 CODEFORCES_PRINTER_TOKEN = os.getenv("CODEFORCES_PRINTER_TOKEN", "")
+RUN_BACKGROUND_TASKS     = os.getenv("RUN_BACKGROUND_TASKS", "yes") == "yes"

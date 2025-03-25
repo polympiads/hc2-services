@@ -1,6 +1,6 @@
 django
 django-enumfield
-channels
+channels[daphne]
 
 requests
 beautifulsoup4

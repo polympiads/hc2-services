@@ -4,6 +4,9 @@ import time
 from typing import Callable
 
 import printout.task
+import logging
+
+logger = logging.getLogger("hc2admin.tasks")
 
 class TaskThread(threading.Thread):
     time: float    = 60
@@ -39,4 +42,5 @@ def run_task_thread (func: Callable, duration: "float | None" = None):
 
     thread.start()
 def run_tasks ():
+    logger.info("Starting all tasks thread.")
     run_task_thread(printout.task.printout_query_task)
