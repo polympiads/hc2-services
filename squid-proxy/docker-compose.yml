@@ -1,0 +1,8 @@
+services:
+  proxy:
+    image: polympiads/proxy
+    ports:
+      - "3128:3128"
+    environment:
+      - OTEL_EXPORTER=host.docker.internal
+      - CODEFORCES_CONTEST=hc2practice25
