@@ -129,6 +129,10 @@ CHANNEL_LAYERS = {
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    "hc2admin/" + STATIC_URL
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
