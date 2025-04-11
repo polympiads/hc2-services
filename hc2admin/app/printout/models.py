@@ -33,7 +33,10 @@ class Printout (models.Model):
             span.set_attribute("print.url", url)
             span.set_attribute("print.content", code)
 
-            team_objs = Team.objects.filter(team_slug=team)
+            if team.startswith("POLYMPIADS"):
+                team_objs = Team.objects.filter(team_id = int(team[10:]))
+            else:
+                team_objs = Team.objects.filter(team_slug=team)
             if len(team_objs) != 1:
                 logger.critical(f"Could not find the team with slug '{team}' ({len(team_objs)} != 1).")
                 logger.critical(f"Please ask the members of the Technical Committee to manually print.")
