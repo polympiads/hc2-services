@@ -48,7 +48,17 @@ def render_template (id: str, name: str, location: str, code: str):
         with tempfile.TemporaryDirectory(prefix=dir + "/") as ndir:
             logger.info(f"Storing into {ndir}")
 
-            write(os.path.join(ndir, "code"), code)
+            write(os.path.join(ndir, "vcode"), code)
+            num_lines = len(code.splitlines())
+            lines = []
+
+            MAXNLINES = 40
+
+            for i in range(1, num_lines, MAXNLINES):
+                lines.append(f"\\VerbatimInput[firstline={i}, lastline={i + MAXNLINES - 1}]" + "{vcode}")
+            code_target = "\n\\newpage\n".join(lines)
+            write(os.path.join(ndir, "code"), code_target)
+
             write(os.path.join(ndir, "id"), id)
             write(os.path.join(ndir, "name"), name)
             write(os.path.join(ndir, "location"), location)
@@ -58,7 +68,8 @@ def render_template (id: str, name: str, location: str, code: str):
 
             with tracer.start_as_current_span("Compiling PDF"):
                 logging.info("Starting pdflatex")
-                subprocess.run([ "pdflatex", "-no-shell-escape", "main.tex" ], cwd=ndir, stdout=subprocess.DEVNULL)
+                proc = subprocess.Popen([ "pdflatex", "-no-shell-escape", "main.tex" ], cwd=ndir, stdin=subprocess.PIPE)
+                proc.communicate( input = b"\n\n\n" )
 
             tar_dir = os.path.join(os.path.dirname(os.path.dirname(dir)), "bucket")
             os.makedirs(tar_dir, exist_ok = True)
